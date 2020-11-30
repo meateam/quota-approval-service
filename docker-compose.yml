@@ -1,0 +1,16 @@
+version: '3.4'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  approval-service-crud:
+    build: .
+    environment:
+      PORT: 8000
+      MONGO_URI: mongodb://mongo:27017/ApprovalDbNew
+      STATUS_SERVICE_URL: http://status-api:80/api/status
+    ports:
+      - 8000:8000

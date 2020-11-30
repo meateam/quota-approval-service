@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package admins;
+
+service Admins {
+    rpc GetAllAdmins(GetAllAdminsRequest) returns (GetAllAdminsResponse) {}
+    rpc IsUserAdmin(IsUserAdminRequest) returns (IsUserAdminResponse) {}
+}
+
+message Admin {
+    string id = 1;
+}
+
+message GetAllAdminsRequest {
+}
+
+message GetAllAdminsResponse {
+    repeated Admin admins = 1;
+}
+
+message IsUserAdminRequest {
+    string id = 1;
+}
+
+message IsUserAdminResponse {
+    bool isUserAdmin = 1;
+}

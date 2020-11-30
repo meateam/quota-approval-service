@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package quota;
+
+service QuotaService {
+    rpc UpdateQuota(UpdateQuotaRequest) returns (UpdateQuotaResponse) {}
+}
+
+message UpdateQuotaRequest {
+  string ownerID = 1;
+  int64 size = 2;
+}
+
+message UpdateQuotaResponse {
+  bool success = 1; 
+}
