@@ -15,7 +15,7 @@ const config = {
         name: env.get('QAS_APM_SERVICE_NAME').default('quota-approval-service').asString(),
     },
     mongo: {
-        uri: env.get('MONGO_URI').required().asUrlString(),
+        uri: env.get('MONGO_URI').default('mongodb://localhost:27017/kdrive').required().asUrlString(),
     },
     quotaService: {
         url: env.get('QUOTA_SERVICE_URL').required().asUrlString(),

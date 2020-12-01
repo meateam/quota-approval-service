@@ -6,11 +6,11 @@ services:
     ports:
       - 27017:27017
 
-  approval-service-crud:
+  quota-approval-service:
     build: .
     environment:
       PORT: 8000
-      MONGO_URI: mongodb://mongo:27017/ApprovalDbNew
-      STATUS_SERVICE_URL: http://status-api:80/api/status
+      QUOTA_SERVICE_URL: 'http://localhost:8080'
+      ADMINS_ID_LIST: '[1,2,3,4,5,6,7]'
     ports:
       - 8000:8000

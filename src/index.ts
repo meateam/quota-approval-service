@@ -31,7 +31,7 @@ const main = async () => {
 
     await initializeMongo();
 
-    Server.start(service.port);
+    new Server("" + service.port);
 };
 
 main().catch(console.error);
