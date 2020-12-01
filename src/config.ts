@@ -40,7 +40,7 @@ const config = {
             // Might be auth instead, not sure.
             httpAuth: `${esUser}:${esPass}`,
         },
-        indexPrefix: env.get('LOG_INDEX').default('kdrive'),
+        indexPrefix: env.get('LOG_INDEX').default('kdrive').asString(),
     },
 };
 

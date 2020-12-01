@@ -2,12 +2,12 @@ import * as winston from 'winston';
 import * as os from 'os';
 import * as grpc from 'grpc';
 import * as WinstonElasticsearch from 'winston-elasticsearch';
-import * as indexTemplateMapping from 'winston-elasticsearch/index-template-mapping.json';
 import * as apm from 'elastic-apm-node';
-import * as Elasticsearch from 'winston-elasticsearch';
 import Config from '../config';
 import { statusToString, validateGrpcError } from './grpc/status';
 import { ApplicationError } from './error';
+const indexTemplateMapping = require('winston-elasticsearch/index-template-mapping.json');
+const Elasticsearch = require('winston-elasticsearch');
 
 const { confLogger, service, debugMode } = Config;
 
@@ -39,10 +39,9 @@ if (debugMode) {
 /**
  * logs the data with its given parameters.
  * @param severity - the kind of log created.
+ * @param message - description in text.
  * @param name - name of the log. in our case, the function called.
- * @param description - description in text.
  * @param traceID - id to correlate to if there are several logs with some connection.
- * @param user - the user requesting for the service.
  * @param meta - additional optional information.
  */
 export const log = <T>(level: Severity, message: string, name: string, traceID?: string, meta?: T) => {
@@ -71,7 +70,7 @@ export function wrapper(
         try {
             const traceparent: grpc.MetadataValue[] = call.metadata.get('elastic-apm-traceparent');
             const transOptions = traceparent.length > 0 ? { childOf: traceparent[0].toString() } : {};
-            apm.startTransaction(`/user.UserService/${funcName}`, 'request', transOptions);
+            apm.startTransaction(`/quotaApproval.QuotaApproval/${funcName}`, 'request', transOptions);
             const reqInfo: object = call.request;
             log(Severity.INFO, 'request', funcName, 'NONE', reqInfo);
 

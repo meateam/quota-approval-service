@@ -18,13 +18,13 @@
     "@grpc/proto-loader": "^0.5.5",
     "axios": "^0.19.0",
     "dotenv": "^8.2.0",
-    "elastic-apm-node": "^3.8.0",
+    "elastic-apm-node": "^3.9.0",
     "env-var": "^6.3.0",
     "grpc": "^1.24.4",
     "mongoose": "^5.10.6",
     "passport": "^0.4.1",
     "passport-shraga": "^1.4.0",
-    "winston-elasticsearch": "^0.12.1"
+    "winston-elasticsearch": "^0.7.13"
   },
   "devDependencies": {
     "@types/dotenv": "^8.2.0",
