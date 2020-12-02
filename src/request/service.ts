@@ -3,9 +3,9 @@ import RequestModel from './model';
 import * as grpc from 'grpc';
 import { loadSync } from '@grpc/proto-loader';
 import { UpdateQuery } from 'mongoose';
-import { UnauthorizedError, ServerError, ClientError } from '../../utils/error';
+import { UnauthorizedError, ServerError, ClientError } from '../utils/error';
 import { RequestStatus, IQuotaApprovalRequest, GetRequestsQuery } from './interface';
-import config from '../../config';
+import config from '../config';
 
 const PROTO_PATH = __dirname + '/../../../proto/quota/quota.proto';
 const packageDefinition = loadSync(PROTO_PATH, {

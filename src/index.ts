@@ -2,7 +2,7 @@
 import * as mongoose from 'mongoose';
 import Server from './server';
 import config from './config';
-import AdminManager from './grpc/admin/service';
+import AdminManager from './admin/service';
 import * as apm from 'elastic-apm-node';
 
 const { mongo, service, admin, apmConfig } = config;

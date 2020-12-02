@@ -1,6 +1,6 @@
 import * as grpc from 'grpc';
-import RequestMethods from './grpc/request/grpc';
-import AdminMethods from './grpc/admin/grpc';
+import RequestMethods from './request/grpc';
+import AdminMethods from './admin/grpc';
 import { loadSync } from '@grpc/proto-loader';
 import { wrapper } from './utils/logger';
 
