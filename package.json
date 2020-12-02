@@ -10,8 +10,6 @@
     "build:watch": "tsc --watch",
     "lint": "eslint . --ext .ts",
     "lint:fix": "eslint . --ext .ts --fix",
-    "prettier": "prettier --config .prettierrc.js 'src/**/*.ts' --check",
-    "prettier:fix": "prettier --config .prettierrc.js 'src/**/*.ts' --write",
     "clean": "rimraf dist"
   },
   "dependencies": {
