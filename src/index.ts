@@ -1,9 +1,8 @@
-/* eslint-disable no-console */
-import * as mongoose from 'mongoose';
-import Server from './server';
-import config from './config';
-import AdminManager from './admin/admin.service';
-import * as apm from 'elastic-apm-node';
+import * as mongoose from "mongoose";
+import * as apm from "elastic-apm-node";
+import Server from "./server";
+import config from "./config";
+import AdminManager from "./admin/admin.service";
 
 const { mongo, service, admin, apmConfig } = config;
 
@@ -12,11 +11,16 @@ const inititlaizeDB = async () => {
 };
 
 const initializeMongo = async () => {
-    console.log('Connecting to Mongo...');
+    console.log("Connecting to Mongo...");
 
-    await mongoose.connect(mongo.uri, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false, useCreateIndex: true });
+    await mongoose.connect(mongo.uri, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false,
+        useCreateIndex: true,
+    });
 
-    console.log('Mongo connection established');
+    console.log("Mongo connection established");
 
     await inititlaizeDB();
 };
@@ -31,7 +35,7 @@ const main = async () => {
 
     await initializeMongo();
 
-    new Server("" + service.port);
+    new Server(`${service.port}`);
 };
 
 main().catch(console.error);

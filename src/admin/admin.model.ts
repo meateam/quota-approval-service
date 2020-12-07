@@ -1,4 +1,5 @@
-import * as mongoose from 'mongoose';
+import * as mongoose from "mongoose";
+import { Admin } from "./admin.interface";
 
 const adminSchema = new mongoose.Schema(
     {
@@ -10,7 +11,17 @@ const adminSchema = new mongoose.Schema(
     },
     {
         _id: false,
-    },
+        versionKey: false,
+        toJSON: {
+            virtuals: true,
+            transform(doc, ret) {
+                delete ret._id;
+            },
+        },
+    }
 );
 
-export const AdminModel = mongoose.model<{ id: string } & mongoose.Document>('Admin', adminSchema);
+export const AdminModel = mongoose.model<Admin & mongoose.Document>(
+    "Admin",
+    adminSchema
+);

@@ -1,5 +1,5 @@
-import * as mongoose from 'mongoose';
-import { IQuotaApprovalRequest } from './request.interface';
+import * as mongoose from "mongoose";
+import { IQuotaApprovalRequest } from "./request.interface";
 
 const requestSchema: mongoose.Schema = new mongoose.Schema(
     {
@@ -27,10 +27,20 @@ const requestSchema: mongoose.Schema = new mongoose.Schema(
     {
         _id: false,
         id: true,
+        versionKey: false,
         timestamps: true,
-    },
+        toJSON: {
+            virtuals: true,
+            transform(doc, ret) {
+                delete ret._id;
+            },
+        },
+    }
 );
 
-const RequestModel = mongoose.model<IQuotaApprovalRequest & mongoose.Document>('Request', requestSchema);
+const RequestModel = mongoose.model<IQuotaApprovalRequest & mongoose.Document>(
+    "Request",
+    requestSchema
+);
 
 export default RequestModel;

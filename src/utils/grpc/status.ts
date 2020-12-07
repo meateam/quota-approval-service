@@ -1,4 +1,4 @@
-import { ApplicationError } from '../error';
+import { ApplicationError } from "../error";
 
 enum status {
     /**
@@ -134,8 +134,10 @@ enum status {
     UNAUTHENTICATED = 16,
 }
 
-export function validateGrpcError(err: Error | ApplicationError): ApplicationError {
-    const errCode = 'code' in err ? err.code : status.UNKNOWN;
+export function validateGrpcError(
+    err: Error | ApplicationError
+): ApplicationError {
+    const errCode = "code" in err ? err.code : status.UNKNOWN;
     return new ApplicationError(err.message, errCode);
 }
 

@@ -1,21 +1,28 @@
-import { AdminModel } from './admin.model';
+import { AdminModel } from "./admin.model";
+import { Admin } from "./admin.interface";
 
 export default class AdminService {
-    static async isUserAdmin(userId: string) {
-        const admin = await AdminModel.findById(userId).exec();
+    static async isUserAdmin(userId: string): Promise<boolean> {
+        const admin = await AdminModel.findOne({ id: userId }).exec();
 
         return !!admin;
     }
 
-    static getAllAdmins() {
+    static async getAllAdmins(): Promise<Admin[]> {
         return AdminModel.find().exec();
     }
 
-    static createAdmins(adminsIds: Array<string>) {
-        return Promise.all(adminsIds.map((adminId) => this.createAdmin(adminId)));
+    static async createAdmins(adminsIds: string[]) {
+        return Promise.all(
+            adminsIds.map((adminId) => this.createAdmin(adminId))
+        );
     }
 
-    static createAdmin(adminId: string) {
-        return AdminModel.findOneAndUpdate({ id: adminId }, { id: adminId }, { new: false, upsert: true }).exec();
+    static async createAdmin(adminId: string) {
+        return AdminModel.findOneAndUpdate(
+            { id: adminId },
+            { id: adminId },
+            { new: true, upsert: true }
+        );
     }
 }

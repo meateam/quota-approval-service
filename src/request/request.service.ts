@@ -1,13 +1,17 @@
-import AdminManager from '../admin/admin.service';
-import RequestModel from './request.model';
-import * as grpc from 'grpc';
-import { loadSync } from '@grpc/proto-loader';
-import { UpdateQuery } from 'mongoose';
-import { UnauthorizedError, ServerError, ClientError } from '../utils/error';
-import { RequestStatus, IQuotaApprovalRequest, GetRequestsQuery } from './request.interface';
-import config from '../config';
+import * as grpc from "grpc";
+import { loadSync } from "@grpc/proto-loader";
+import { UpdateQuery } from "mongoose";
+import RequestModel from "./request.model";
+import AdminManager from "../admin/admin.service";
+import { UnauthorizedError, ServerError, ClientError } from "../utils/error";
+import {
+    RequestStatus,
+    IQuotaApprovalRequest,
+    GetRequestsQuery,
+} from "./request.interface";
+import config from "../config";
 
-const PROTO_PATH = __dirname + '/../../../proto/quota/quota.proto';
+const PROTO_PATH = `${__dirname}/../../../proto/quota/quota.proto`;
 const packageDefinition = loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,
@@ -22,13 +26,17 @@ export default class RequestService {
         const request = await RequestModel.findById(requestId);
 
         if (!request) {
-            throw new ClientError(`request with id: ${requestId} was not found!`);
+            throw new ClientError(
+                `request with id: ${requestId} was not found!`
+            );
         }
 
         return request;
     }
 
-    static async create(request: IQuotaApprovalRequest): Promise<IQuotaApprovalRequest> {
+    static async create(
+        request: IQuotaApprovalRequest
+    ): Promise<IQuotaApprovalRequest> {
         request.status = await this.getInitialRequestStatus(request);
         const requestDocument = await RequestModel.create(request);
 
@@ -55,7 +63,10 @@ export default class RequestService {
         return this.getAllRequests();
     }
 
-    static async getApprovableRequests(userId: string, search?: string): Promise<IQuotaApprovalRequest[]> {
+    static async getApprovableRequests(
+        userId: string,
+        search?: string
+    ): Promise<IQuotaApprovalRequest[]> {
         const isAdmin = await AdminManager.isUserAdmin(userId);
 
         if (!isAdmin) {
@@ -87,11 +98,17 @@ export default class RequestService {
         return RequestModel.find(condition).exec();
     }
 
-    static async updateRequest(requestId: string, modifiedBy: string, status: RequestStatus): Promise<IQuotaApprovalRequest> {
+    static async updateRequest(
+        requestId: string,
+        modifiedBy: string,
+        status: RequestStatus
+    ): Promise<IQuotaApprovalRequest> {
         const isAdmin = await AdminManager.isUserAdmin(modifiedBy);
 
         if (!isAdmin) {
-            throw new UnauthorizedError(`Operation not permitted for user: ${modifiedBy}`);
+            throw new UnauthorizedError(
+                `Operation not permitted for user: ${modifiedBy}`
+            );
         }
 
         const updateExpression: UpdateQuery<IQuotaApprovalRequest> = {
@@ -100,10 +117,16 @@ export default class RequestService {
             },
         };
 
-        const updatedRequest = await RequestModel.findOneAndUpdate({ id: requestId }, updateExpression, { new: true }).exec();
+        const updatedRequest = await RequestModel.findOneAndUpdate(
+            { id: requestId },
+            updateExpression,
+            { new: true }
+        ).exec();
 
         if (!updatedRequest) {
-            throw new ClientError(`request with id: ${requestId} was not found!`);
+            throw new ClientError(
+                `request with id: ${requestId} was not found!`
+            );
         }
 
         await this.handleQuotaUpdate(updatedRequest);
@@ -113,7 +136,10 @@ export default class RequestService {
 
     private static getSearchCondition(search: string) {
         return {
-            $or: [{ id: { $regex: `^${search}` } }, { from: { $regex: search, $options: 'i' } }],
+            $or: [
+                { id: { $regex: `^${search}` } },
+                { from: { $regex: search, $options: "i" } },
+            ],
         };
     }
 
@@ -121,10 +147,12 @@ export default class RequestService {
      * Returns the initial status for the new request.
      * @param request the new request.
      */
-    private static async getInitialRequestStatus(request: IQuotaApprovalRequest) {
+    private static async getInitialRequestStatus(
+        request: IQuotaApprovalRequest
+    ) {
         if (request.modifiedBy) {
             const isAdmin = await AdminManager.isUserAdmin(request.modifiedBy);
-    
+
             if (isAdmin) {
                 return RequestStatus.APPROVED;
             }
@@ -147,16 +175,24 @@ export default class RequestService {
      * the function rolls back the request to its last status.
      * @param request the request that its status was updated.
      */
-    private static async handleQuotaUpdate(request: IQuotaApprovalRequest): Promise<void> {
+    private static async handleQuotaUpdate(
+        request: IQuotaApprovalRequest
+    ): Promise<void> {
         try {
             if (this.isApproved(request.status)) {
                 const ownerID: string = request.from;
-                const size: number = request.size;
+                const { size } = request;
 
-                const quotaClient = await new quota.QuotaService(config.quotaService.url, grpc.credentials.createInsecure());
-                quotaClient.UpdateQuota({ ownerID, size }, (err: Error, _res: any) => {
-                    if (err) throw new ServerError();
-                });
+                const quotaClient = await new quota.QuotaService(
+                    config.quotaService.url,
+                    grpc.credentials.createInsecure()
+                );
+                quotaClient.UpdateQuota(
+                    { ownerID, size },
+                    (err: Error, _res: any) => {
+                        if (err) throw new ServerError();
+                    }
+                );
             }
         } catch (err) {
             const requestId: string = request.id;
@@ -166,8 +202,18 @@ export default class RequestService {
                 },
             };
 
-            await RequestModel.findOneAndUpdate({ id: requestId }, undoExpression, { new: true }).exec();
-            throw new ServerError(`Failed to update Quota service about request change with error: ${JSON.stringify(err)}`);
+            await RequestModel.findOneAndUpdate(
+                { id: requestId },
+                undoExpression,
+                {
+                    new: true,
+                }
+            ).exec();
+            throw new ServerError(
+                `Failed to update Quota service about request change with error: ${JSON.stringify(
+                    err
+                )}`
+            );
         }
     }
 }

@@ -1,7 +1,7 @@
 export enum RequestStatus {
-    PENDING = 'REQUEST_PENDING_APPROVAL',
-    APPROVED = 'REQUEST_APPROVED',
-    DENIED = 'REQUEST_NOT_APPROVED',
+    PENDING = "REQUEST_PENDING_APPROVAL",
+    APPROVED = "REQUEST_APPROVED",
+    DENIED = "REQUEST_NOT_APPROVED",
 }
 
 export interface IQuotaApprovalRequest {
