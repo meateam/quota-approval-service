@@ -23,7 +23,7 @@ message CreateQuotaApprovalRequest {
     string from = 1;
     string info = 2;
     int64 size = 3;
-    optional string modifiedBy = 4;
+    string modifiedBy = 4;
 }
 
 message CreateQuotaApprovalResponse {

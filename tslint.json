@@ -8,5 +8,8 @@
       "variable-name": [true, "ban-keywords", "check-format", "allow-snake-case", "allow-leading-underscore", "allow-pascal-case"],
       "ter-indent": [true, 4],
       "ter-prefer-arrow-callback": false
+    },
+    "linterOptions": {
+      "exclude": ["proto"]
     }
   }
