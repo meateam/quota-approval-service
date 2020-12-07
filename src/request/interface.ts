@@ -10,6 +10,7 @@ export interface IQuotaApprovalRequest {
     from: string;
     info: string;
     size: number;
+    modifiedBy?: string;
     createdBy: Date;
     updatedBy: Date;
 }

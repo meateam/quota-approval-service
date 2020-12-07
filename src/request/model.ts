@@ -19,6 +19,10 @@ const requestSchema: mongoose.Schema = new mongoose.Schema(
             type: Number,
             required: true,
         },
+        modifiedBy: {
+            type: String,
+            required: false,
+        },
     },
     {
         _id: false,

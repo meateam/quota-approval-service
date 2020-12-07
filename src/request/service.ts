@@ -87,11 +87,11 @@ export default class RequestService {
         return RequestModel.find(condition).exec();
     }
 
-    static async updateRequest(requestId: string, userId: string, status: RequestStatus): Promise<IQuotaApprovalRequest> {
-        const isAdmin = await AdminManager.isUserAdmin(userId);
+    static async updateRequest(requestId: string, modifiedBy: string, status: RequestStatus): Promise<IQuotaApprovalRequest> {
+        const isAdmin = await AdminManager.isUserAdmin(modifiedBy);
 
         if (!isAdmin) {
-            throw new UnauthorizedError(`Operation not permitted for user: ${userId}`);
+            throw new UnauthorizedError(`Operation not permitted for user: ${modifiedBy}`);
         }
 
         const updateExpression: UpdateQuery<IQuotaApprovalRequest> = {
@@ -122,10 +122,12 @@ export default class RequestService {
      * @param request the new request.
      */
     private static async getInitialRequestStatus(request: IQuotaApprovalRequest) {
-        const isAdmin = await AdminManager.isUserAdmin(request.from);
-
-        if (isAdmin) {
-            return RequestStatus.APPROVED;
+        if (request.modifiedBy) {
+            const isAdmin = await AdminManager.isUserAdmin(request.modifiedBy);
+    
+            if (isAdmin) {
+                return RequestStatus.APPROVED;
+            }
         }
 
         return RequestStatus.PENDING;
@@ -160,7 +162,7 @@ export default class RequestService {
             const requestId: string = request.id;
             const undoExpression: UpdateQuery<IQuotaApprovalRequest> = {
                 $set: {
-                    status: request.status,
+                    status: RequestStatus.PENDING,
                 },
             };
 

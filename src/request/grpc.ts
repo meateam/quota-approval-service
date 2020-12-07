@@ -3,12 +3,13 @@ import RequestService from './service';
 import { IQuotaApprovalRequest, GetRequestsQuery, RequestStatus } from './interface';
 
 export default class RequestMethods {
-    static async createRequest(call: ServerUnaryCall<{ from: string; info: string; size: number }>): Promise<IQuotaApprovalRequest> {
+    static async createRequest(call: ServerUnaryCall<{ from: string; info: string; size: number; modifiedBy: string; }>): Promise<IQuotaApprovalRequest> {
         const from: string = call.request.from;
         const info: string = call.request.info;
         const size: number = call.request.size;
-
-        return RequestService.create({ from, info, size } as IQuotaApprovalRequest);
+        const modifiedBy: string = call.request.modifiedBy;
+        
+        return RequestService.create({ from, info, size, modifiedBy } as IQuotaApprovalRequest);
     }
 
     static async getRequestById(call: ServerUnaryCall<{ id: string }>): Promise<IQuotaApprovalRequest> {
