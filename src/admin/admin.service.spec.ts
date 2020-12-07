@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 import { expect } from "chai";
 import { AdminModel } from "./admin.model";
 import AdminService from "./admin.service";
-import config from "../config";
 import { Admin } from "./admin.interface";
 
 describe("Admin Logic", () => {

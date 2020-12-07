@@ -39,6 +39,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "grpc-mock": "^0.7.0",
     "mocha": "6.1.4",
     "ts-node": "^9.1.0",
     "tslint": "^6.1.3",

@@ -8,11 +8,11 @@ export interface IQuotaApprovalRequest {
     id: string;
     status: RequestStatus;
     from: string;
-    info: string;
+    info?: string;
     size: number;
     modifiedBy?: string;
-    createdBy: Date;
-    updatedBy: Date;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
 export interface GetRequestsQuery {

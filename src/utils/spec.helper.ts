@@ -19,6 +19,7 @@ before(async () => {
         useCreateIndex: true,
         useNewUrlParser: true,
         useFindAndModify: false,
+        useUnifiedTopology: true,
     });
     console.log(`mongo connection: ${mongoUri}`);
 });

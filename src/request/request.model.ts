@@ -18,6 +18,7 @@ const requestSchema: mongoose.Schema = new mongoose.Schema(
         size: {
             type: Number,
             required: true,
+            min: 0,
         },
         modifiedBy: {
             type: String,
@@ -25,7 +26,6 @@ const requestSchema: mongoose.Schema = new mongoose.Schema(
         },
     },
     {
-        _id: false,
         id: true,
         versionKey: false,
         timestamps: true,
@@ -35,12 +35,15 @@ const requestSchema: mongoose.Schema = new mongoose.Schema(
                 delete ret._id;
             },
         },
+        toObject: {
+            virtuals: true,
+            transform(doc, ret) {
+                delete ret._id;
+            },
+        },
     }
 );
 
-const RequestModel = mongoose.model<IQuotaApprovalRequest & mongoose.Document>(
-    "Request",
-    requestSchema
-);
-
-export default RequestModel;
+export const RequestModel = mongoose.model<
+    IQuotaApprovalRequest & mongoose.Document
+>("QuotaRequest", requestSchema);

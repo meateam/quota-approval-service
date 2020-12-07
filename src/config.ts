@@ -28,7 +28,7 @@ const config = {
             .asUrlString(),
     },
     quotaService: {
-        url: env.get("QUOTA_SERVICE_URL").required().asUrlString(),
+        url: env.get("QUOTA_SERVICE_URL").required().asString(),
     },
     admin: {
         list: env.get("ADMINS_ID_LIST").required().asArray(","),

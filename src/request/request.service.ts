@@ -1,17 +1,18 @@
 import * as grpc from "grpc";
+import AdminManager from "../admin/admin.service";
+import config from "../config";
 import { loadSync } from "@grpc/proto-loader";
 import { UpdateQuery } from "mongoose";
-import RequestModel from "./request.model";
-import AdminManager from "../admin/admin.service";
+import { RequestModel } from "./request.model";
 import { UnauthorizedError, ServerError, ClientError } from "../utils/error";
 import {
     RequestStatus,
     IQuotaApprovalRequest,
     GetRequestsQuery,
 } from "./request.interface";
-import config from "../config";
+import { status } from "../utils/grpc/status";
 
-const PROTO_PATH = `${__dirname}/../../../proto/quota/quota.proto`;
+const PROTO_PATH = `${__dirname}/../../proto/quota/quota.proto`;
 const packageDefinition = loadSync(PROTO_PATH, {
     keepCase: true,
     longs: String,
@@ -23,7 +24,7 @@ const { quota }: any = grpc.loadPackageDefinition(packageDefinition);
 
 export default class RequestService {
     static async getById(requestId: string) {
-        const request = await RequestModel.findById(requestId);
+        const request = await RequestModel.findById(requestId).exec();
 
         if (!request) {
             throw new ClientError(
@@ -64,8 +65,7 @@ export default class RequestService {
     }
 
     static async getApprovableRequests(
-        userId: string,
-        search?: string
+        userId: string
     ): Promise<IQuotaApprovalRequest[]> {
         const isAdmin = await AdminManager.isUserAdmin(userId);
 
@@ -73,27 +73,17 @@ export default class RequestService {
             return [];
         }
 
-        let condition = {
+        const condition = {
             status: RequestStatus.PENDING,
         };
-
-        if (search) {
-            const searchCondition = this.getSearchCondition(search);
-            condition = { ...condition, ...searchCondition };
-        }
 
         return RequestModel.find(condition).exec();
     }
 
     static async getUserRequests(userId: string, search?: string) {
-        let condition = {
+        const condition = {
             from: userId,
         };
-
-        if (search) {
-            const searchCondition = this.getSearchCondition(search);
-            condition = { ...condition, ...searchCondition };
-        }
 
         return RequestModel.find(condition).exec();
     }
@@ -114,11 +104,12 @@ export default class RequestService {
         const updateExpression: UpdateQuery<IQuotaApprovalRequest> = {
             $set: {
                 status,
+                modifiedBy,
             },
         };
 
         const updatedRequest = await RequestModel.findOneAndUpdate(
-            { id: requestId },
+            { _id: requestId },
             updateExpression,
             { new: true }
         ).exec();
@@ -132,15 +123,6 @@ export default class RequestService {
         await this.handleQuotaUpdate(updatedRequest);
 
         return updatedRequest;
-    }
-
-    private static getSearchCondition(search: string) {
-        return {
-            $or: [
-                { id: { $regex: `^${search}` } },
-                { from: { $regex: search, $options: "i" } },
-            ],
-        };
     }
 
     /**
@@ -187,12 +169,20 @@ export default class RequestService {
                     config.quotaService.url,
                     grpc.credentials.createInsecure()
                 );
-                quotaClient.UpdateQuota(
-                    { ownerID, size },
-                    (err: Error, _res: any) => {
-                        if (err) throw new ServerError();
-                    }
-                );
+                const updateQuotaPromise = new Promise((res, rej) => {
+                    quotaClient.UpdateQuota(
+                        {
+                            ownerID,
+                            size,
+                        },
+                        (err: Error, response: any) => {
+                            if (err) {
+                                rej(err);
+                            }
+                            res(response);
+                        }
+                    );
+                });
             }
         } catch (err) {
             const requestId: string = request.id;
@@ -203,16 +193,19 @@ export default class RequestService {
             };
 
             await RequestModel.findOneAndUpdate(
-                { id: requestId },
+                { _id: requestId },
                 undoExpression,
                 {
                     new: true,
                 }
             ).exec();
+            console.error(err);
+
             throw new ServerError(
                 `Failed to update Quota service about request change with error: ${JSON.stringify(
-                    err
-                )}`
+                    err.message
+                )}`,
+                status.INTERNAL
             );
         }
     }

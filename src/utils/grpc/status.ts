@@ -1,6 +1,6 @@
 import { ApplicationError } from "../error";
 
-enum status {
+export enum status {
     /**
      * Not an error; returned on success
      */

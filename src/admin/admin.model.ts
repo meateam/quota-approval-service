@@ -18,6 +18,12 @@ const adminSchema = new mongoose.Schema(
                 delete ret._id;
             },
         },
+        toObject: {
+            virtuals: true,
+            transform(doc, ret) {
+                delete ret._id;
+            },
+        },
     }
 );
 
