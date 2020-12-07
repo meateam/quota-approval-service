@@ -1,15 +1,15 @@
-import { AdminModel } from "./admin.model";
+import AdminRepository from "./admin.repository";
 import { Admin } from "./admin.interface";
 
 export default class AdminService {
     static async isUserAdmin(userId: string): Promise<boolean> {
-        const admin = await AdminModel.findOne({ id: userId }).exec();
+        const admin = await AdminRepository.getAdminById(userId);
 
         return !!admin;
     }
 
     static async getAllAdmins(): Promise<Admin[]> {
-        return AdminModel.find().exec();
+        return AdminRepository.getAdmins({});
     }
 
     static async createAdmins(adminsIds: string[]) {
@@ -19,10 +19,6 @@ export default class AdminService {
     }
 
     static async createAdmin(adminId: string) {
-        return AdminModel.findOneAndUpdate(
-            { id: adminId },
-            { id: adminId },
-            { new: true, upsert: true }
-        );
+        return AdminRepository.createAdmin(adminId);
     }
 }

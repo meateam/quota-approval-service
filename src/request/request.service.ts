@@ -3,7 +3,7 @@ import AdminManager from "../admin/admin.service";
 import config from "../config";
 import { loadSync } from "@grpc/proto-loader";
 import { UpdateQuery } from "mongoose";
-import { RequestModel } from "./request.model";
+import RequestRepository from "./request.repository";
 import { UnauthorizedError, ServerError, ClientError } from "../utils/error";
 import {
     RequestStatus,
@@ -24,7 +24,7 @@ const { quota }: any = grpc.loadPackageDefinition(packageDefinition);
 
 export default class RequestService {
     static async getById(requestId: string) {
-        const request = await RequestModel.findById(requestId).exec();
+        const request = await RequestRepository.getRequestById(requestId);
 
         if (!request) {
             throw new ClientError(
@@ -39,7 +39,7 @@ export default class RequestService {
         request: IQuotaApprovalRequest
     ): Promise<IQuotaApprovalRequest> {
         request.status = await this.getInitialRequestStatus(request);
-        const requestDocument = await RequestModel.create(request);
+        const requestDocument = await RequestRepository.createRequest(request);
 
         await this.handleQuotaUpdate(requestDocument);
 
@@ -47,7 +47,7 @@ export default class RequestService {
     }
 
     static async getAllRequests() {
-        return RequestModel.find().exec();
+        return RequestRepository.getRequests({});
     }
 
     static async getRequests(query: GetRequestsQuery) {
@@ -77,15 +77,15 @@ export default class RequestService {
             status: RequestStatus.PENDING,
         };
 
-        return RequestModel.find(condition).exec();
+        return RequestRepository.getRequests(condition);
     }
 
-    static async getUserRequests(userId: string, search?: string) {
+    static async getUserRequests(userId: string) {
         const condition = {
             from: userId,
         };
 
-        return RequestModel.find(condition).exec();
+        return RequestRepository.getRequests(condition);
     }
 
     static async updateRequest(
@@ -101,18 +101,13 @@ export default class RequestService {
             );
         }
 
-        const updateExpression: UpdateQuery<IQuotaApprovalRequest> = {
-            $set: {
+        const updatedRequest = await RequestRepository.updateRequest(
+            requestId,
+            {
                 status,
                 modifiedBy,
-            },
-        };
-
-        const updatedRequest = await RequestModel.findOneAndUpdate(
-            { _id: requestId },
-            updateExpression,
-            { new: true }
-        ).exec();
+            }
+        );
 
         if (!updatedRequest) {
             throw new ClientError(
@@ -186,20 +181,10 @@ export default class RequestService {
             }
         } catch (err) {
             const requestId: string = request.id;
-            const undoExpression: UpdateQuery<IQuotaApprovalRequest> = {
-                $set: {
-                    status: RequestStatus.PENDING,
-                },
-            };
 
-            await RequestModel.findOneAndUpdate(
-                { _id: requestId },
-                undoExpression,
-                {
-                    new: true,
-                }
-            ).exec();
-            console.error(err);
+            await RequestRepository.updateRequest(requestId, {
+                status: RequestStatus.PENDING,
+            });
 
             throw new ServerError(
                 `Failed to update Quota service about request change with error: ${JSON.stringify(
