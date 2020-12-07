@@ -1,6 +1,6 @@
 import { ServerUnaryCall } from 'grpc';
-import RequestService from './service';
-import { IQuotaApprovalRequest, GetRequestsQuery, RequestStatus } from './interface';
+import RequestService from './request.service';
+import { IQuotaApprovalRequest, GetRequestsQuery, RequestStatus } from './request.interface';
 
 export default class RequestMethods {
     static async createRequest(call: ServerUnaryCall<{ from: string; info: string; size: number; modifiedBy: string; }>): Promise<IQuotaApprovalRequest> {

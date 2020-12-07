@@ -1,5 +1,5 @@
 import { ServerUnaryCall } from 'grpc';
-import AdminService from './service';
+import AdminService from './admin.service';
 
 export default class AdminMethods {
     static async getAllAdmins(_call: ServerUnaryCall<{}>): Promise<Array<{ id: string }>> {

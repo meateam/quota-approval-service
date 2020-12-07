@@ -1,4 +1,4 @@
-import { AdminModel } from './model';
+import { AdminModel } from './admin.model';
 
 export default class AdminService {
     static async isUserAdmin(userId: string) {

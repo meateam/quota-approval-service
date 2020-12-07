@@ -1,5 +1,5 @@
 import * as mongoose from 'mongoose';
-import { IQuotaApprovalRequest } from './interface';
+import { IQuotaApprovalRequest } from './request.interface';
 
 const requestSchema: mongoose.Schema = new mongoose.Schema(
     {

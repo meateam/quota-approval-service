@@ -1,10 +1,10 @@
-import AdminManager from '../admin/service';
-import RequestModel from './model';
+import AdminManager from '../admin/admin.service';
+import RequestModel from './request.model';
 import * as grpc from 'grpc';
 import { loadSync } from '@grpc/proto-loader';
 import { UpdateQuery } from 'mongoose';
 import { UnauthorizedError, ServerError, ClientError } from '../utils/error';
-import { RequestStatus, IQuotaApprovalRequest, GetRequestsQuery } from './interface';
+import { RequestStatus, IQuotaApprovalRequest, GetRequestsQuery } from './request.interface';
 import config from '../config';
 
 const PROTO_PATH = __dirname + '/../../../proto/quota/quota.proto';
