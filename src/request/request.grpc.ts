@@ -28,7 +28,7 @@ export default class RequestMethods {
         } as IQuotaApprovalRequest);
     }
 
-    static async getRequestById(
+    static async getRequestByID(
         call: ServerUnaryCall<{ id: string }>
     ): Promise<IQuotaApprovalRequest> {
         const requestId: string = call.request.id;

@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 type QuotaApprovalClient interface {
 	CreateQuotaApproval(ctx context.Context, in *CreateQuotaApprovalRequest, opts ...grpc.CallOption) (*CreateQuotaApprovalResponse, error)
 	GetQuotasApprovals(ctx context.Context, in *GetQuotasApprovalsRequest, opts ...grpc.CallOption) (*GetQuotasApprovalsResponse, error)
-	GetQuotaApprovalById(ctx context.Context, in *GetQuotaApprovalByIdRequest, opts ...grpc.CallOption) (*GetQuotaApprovalByIdResponse, error)
+	GetQuotaApprovalByID(ctx context.Context, in *GetQuotaApprovalByIDRequest, opts ...grpc.CallOption) (*GetQuotaApprovalByIDResponse, error)
 	UpdateQuotaApproval(ctx context.Context, in *UpdateQuotaApprovalRequest, opts ...grpc.CallOption) (*UpdateQuotaApprovalResponse, error)
 }
 
@@ -49,9 +49,9 @@ func (c *quotaApprovalClient) GetQuotasApprovals(ctx context.Context, in *GetQuo
 	return out, nil
 }
 
-func (c *quotaApprovalClient) GetQuotaApprovalById(ctx context.Context, in *GetQuotaApprovalByIdRequest, opts ...grpc.CallOption) (*GetQuotaApprovalByIdResponse, error) {
-	out := new(GetQuotaApprovalByIdResponse)
-	err := c.cc.Invoke(ctx, "/quotaApproval.QuotaApproval/GetQuotaApprovalById", in, out, opts...)
+func (c *quotaApprovalClient) GetQuotaApprovalByID(ctx context.Context, in *GetQuotaApprovalByIDRequest, opts ...grpc.CallOption) (*GetQuotaApprovalByIDResponse, error) {
+	out := new(GetQuotaApprovalByIDResponse)
+	err := c.cc.Invoke(ctx, "/quotaApproval.QuotaApproval/GetQuotaApprovalByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -73,7 +73,7 @@ func (c *quotaApprovalClient) UpdateQuotaApproval(ctx context.Context, in *Updat
 type QuotaApprovalServer interface {
 	CreateQuotaApproval(context.Context, *CreateQuotaApprovalRequest) (*CreateQuotaApprovalResponse, error)
 	GetQuotasApprovals(context.Context, *GetQuotasApprovalsRequest) (*GetQuotasApprovalsResponse, error)
-	GetQuotaApprovalById(context.Context, *GetQuotaApprovalByIdRequest) (*GetQuotaApprovalByIdResponse, error)
+	GetQuotaApprovalByID(context.Context, *GetQuotaApprovalByIDRequest) (*GetQuotaApprovalByIDResponse, error)
 	UpdateQuotaApproval(context.Context, *UpdateQuotaApprovalRequest) (*UpdateQuotaApprovalResponse, error)
 	mustEmbedUnimplementedQuotaApprovalServer()
 }
@@ -88,8 +88,8 @@ func (UnimplementedQuotaApprovalServer) CreateQuotaApproval(context.Context, *Cr
 func (UnimplementedQuotaApprovalServer) GetQuotasApprovals(context.Context, *GetQuotasApprovalsRequest) (*GetQuotasApprovalsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetQuotasApprovals not implemented")
 }
-func (UnimplementedQuotaApprovalServer) GetQuotaApprovalById(context.Context, *GetQuotaApprovalByIdRequest) (*GetQuotaApprovalByIdResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetQuotaApprovalById not implemented")
+func (UnimplementedQuotaApprovalServer) GetQuotaApprovalByID(context.Context, *GetQuotaApprovalByIDRequest) (*GetQuotaApprovalByIDResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetQuotaApprovalByID not implemented")
 }
 func (UnimplementedQuotaApprovalServer) UpdateQuotaApproval(context.Context, *UpdateQuotaApprovalRequest) (*UpdateQuotaApprovalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateQuotaApproval not implemented")
@@ -143,20 +143,20 @@ func _QuotaApproval_GetQuotasApprovals_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
-func _QuotaApproval_GetQuotaApprovalById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetQuotaApprovalByIdRequest)
+func _QuotaApproval_GetQuotaApprovalByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetQuotaApprovalByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(QuotaApprovalServer).GetQuotaApprovalById(ctx, in)
+		return srv.(QuotaApprovalServer).GetQuotaApprovalByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/quotaApproval.QuotaApproval/GetQuotaApprovalById",
+		FullMethod: "/quotaApproval.QuotaApproval/GetQuotaApprovalByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QuotaApprovalServer).GetQuotaApprovalById(ctx, req.(*GetQuotaApprovalByIdRequest))
+		return srv.(QuotaApprovalServer).GetQuotaApprovalByID(ctx, req.(*GetQuotaApprovalByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -192,8 +192,8 @@ var _QuotaApproval_serviceDesc = grpc.ServiceDesc{
 			Handler:    _QuotaApproval_GetQuotasApprovals_Handler,
 		},
 		{
-			MethodName: "GetQuotaApprovalById",
-			Handler:    _QuotaApproval_GetQuotaApprovalById_Handler,
+			MethodName: "GetQuotaApprovalByID",
+			Handler:    _QuotaApproval_GetQuotaApprovalByID_Handler,
 		},
 		{
 			MethodName: "UpdateQuotaApproval",

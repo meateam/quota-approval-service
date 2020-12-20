@@ -340,7 +340,7 @@ func (x *GetQuotasApprovalsResponse) GetQuotaApprovalRequest() []*QuotaApprovalR
 	return nil
 }
 
-type GetQuotaApprovalByIdRequest struct {
+type GetQuotaApprovalByIDRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -348,8 +348,8 @@ type GetQuotaApprovalByIdRequest struct {
 	Id string `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 }
 
-func (x *GetQuotaApprovalByIdRequest) Reset() {
-	*x = GetQuotaApprovalByIdRequest{}
+func (x *GetQuotaApprovalByIDRequest) Reset() {
+	*x = GetQuotaApprovalByIDRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_quotaApproval_quotaApproval_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -357,13 +357,13 @@ func (x *GetQuotaApprovalByIdRequest) Reset() {
 	}
 }
 
-func (x *GetQuotaApprovalByIdRequest) String() string {
+func (x *GetQuotaApprovalByIDRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetQuotaApprovalByIdRequest) ProtoMessage() {}
+func (*GetQuotaApprovalByIDRequest) ProtoMessage() {}
 
-func (x *GetQuotaApprovalByIdRequest) ProtoReflect() protoreflect.Message {
+func (x *GetQuotaApprovalByIDRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_quotaApproval_quotaApproval_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -375,19 +375,19 @@ func (x *GetQuotaApprovalByIdRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetQuotaApprovalByIdRequest.ProtoReflect.Descriptor instead.
-func (*GetQuotaApprovalByIdRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetQuotaApprovalByIDRequest.ProtoReflect.Descriptor instead.
+func (*GetQuotaApprovalByIDRequest) Descriptor() ([]byte, []int) {
 	return file_proto_quotaApproval_quotaApproval_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *GetQuotaApprovalByIdRequest) GetId() string {
+func (x *GetQuotaApprovalByIDRequest) GetId() string {
 	if x != nil {
 		return x.Id
 	}
 	return ""
 }
 
-type GetQuotaApprovalByIdResponse struct {
+type GetQuotaApprovalByIDResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -395,8 +395,8 @@ type GetQuotaApprovalByIdResponse struct {
 	QuotaApprovalRequest *QuotaApprovalRequest `protobuf:"bytes,1,opt,name=quotaApprovalRequest,proto3" json:"quotaApprovalRequest,omitempty"`
 }
 
-func (x *GetQuotaApprovalByIdResponse) Reset() {
-	*x = GetQuotaApprovalByIdResponse{}
+func (x *GetQuotaApprovalByIDResponse) Reset() {
+	*x = GetQuotaApprovalByIDResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_proto_quotaApproval_quotaApproval_proto_msgTypes[6]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -404,13 +404,13 @@ func (x *GetQuotaApprovalByIdResponse) Reset() {
 	}
 }
 
-func (x *GetQuotaApprovalByIdResponse) String() string {
+func (x *GetQuotaApprovalByIDResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetQuotaApprovalByIdResponse) ProtoMessage() {}
+func (*GetQuotaApprovalByIDResponse) ProtoMessage() {}
 
-func (x *GetQuotaApprovalByIdResponse) ProtoReflect() protoreflect.Message {
+func (x *GetQuotaApprovalByIDResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_proto_quotaApproval_quotaApproval_proto_msgTypes[6]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -422,12 +422,12 @@ func (x *GetQuotaApprovalByIdResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetQuotaApprovalByIdResponse.ProtoReflect.Descriptor instead.
-func (*GetQuotaApprovalByIdResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetQuotaApprovalByIDResponse.ProtoReflect.Descriptor instead.
+func (*GetQuotaApprovalByIDResponse) Descriptor() ([]byte, []int) {
 	return file_proto_quotaApproval_quotaApproval_proto_rawDescGZIP(), []int{6}
 }
 
-func (x *GetQuotaApprovalByIdResponse) GetQuotaApprovalRequest() *QuotaApprovalRequest {
+func (x *GetQuotaApprovalByIDResponse) GetQuotaApprovalRequest() *QuotaApprovalRequest {
 	if x != nil {
 		return x.QuotaApprovalRequest
 	}
@@ -592,9 +592,9 @@ var file_proto_quotaApproval_quotaApproval_proto_rawDesc = []byte{
 	0x65, 0x73, 0x74, 0x52, 0x14, 0x71, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76,
 	0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x2d, 0x0a, 0x1b, 0x47, 0x65, 0x74,
 	0x51, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x42, 0x79, 0x49,
-	0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
+	0x44, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x69, 0x64, 0x22, 0x77, 0x0a, 0x1c, 0x47, 0x65, 0x74, 0x51,
-	0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x64,
+	0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x44,
 	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x57, 0x0a, 0x14, 0x71, 0x75, 0x6f, 0x74,
 	0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x18, 0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x23, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70,
@@ -631,12 +631,12 @@ var file_proto_quotaApproval_quotaApproval_proto_rawDesc = []byte{
 	0x6c, 0x2e, 0x47, 0x65, 0x74, 0x51, 0x75, 0x6f, 0x74, 0x61, 0x73, 0x41, 0x70, 0x70, 0x72, 0x6f,
 	0x76, 0x61, 0x6c, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x71,
 	0x0a, 0x14, 0x47, 0x65, 0x74, 0x51, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76,
-	0x61, 0x6c, 0x42, 0x79, 0x49, 0x64, 0x12, 0x2a, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70,
+	0x61, 0x6c, 0x42, 0x79, 0x49, 0x44, 0x12, 0x2a, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70,
 	0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x2e, 0x47, 0x65, 0x74, 0x51, 0x75, 0x6f, 0x74, 0x61, 0x41,
-	0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x75, 0x65,
 	0x73, 0x74, 0x1a, 0x2b, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f, 0x76,
 	0x61, 0x6c, 0x2e, 0x47, 0x65, 0x74, 0x51, 0x75, 0x6f, 0x74, 0x61, 0x41, 0x70, 0x70, 0x72, 0x6f,
-	0x76, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x64, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
+	0x76, 0x61, 0x6c, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22,
 	0x00, 0x12, 0x6e, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x51, 0x75, 0x6f, 0x74, 0x61,
 	0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x12, 0x29, 0x2e, 0x71, 0x75, 0x6f, 0x74, 0x61,
 	0x41, 0x70, 0x70, 0x72, 0x6f, 0x76, 0x61, 0x6c, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x51,
@@ -666,23 +666,23 @@ var file_proto_quotaApproval_quotaApproval_proto_goTypes = []interface{}{
 	(*CreateQuotaApprovalResponse)(nil),  // 2: quotaApproval.CreateQuotaApprovalResponse
 	(*GetQuotasApprovalsRequest)(nil),    // 3: quotaApproval.GetQuotasApprovalsRequest
 	(*GetQuotasApprovalsResponse)(nil),   // 4: quotaApproval.GetQuotasApprovalsResponse
-	(*GetQuotaApprovalByIdRequest)(nil),  // 5: quotaApproval.GetQuotaApprovalByIdRequest
-	(*GetQuotaApprovalByIdResponse)(nil), // 6: quotaApproval.GetQuotaApprovalByIdResponse
+	(*GetQuotaApprovalByIDRequest)(nil),  // 5: quotaApproval.GetQuotaApprovalByIDRequest
+	(*GetQuotaApprovalByIDResponse)(nil), // 6: quotaApproval.GetQuotaApprovalByIDResponse
 	(*UpdateQuotaApprovalRequest)(nil),   // 7: quotaApproval.UpdateQuotaApprovalRequest
 	(*UpdateQuotaApprovalResponse)(nil),  // 8: quotaApproval.UpdateQuotaApprovalResponse
 }
 var file_proto_quotaApproval_quotaApproval_proto_depIdxs = []int32{
 	0, // 0: quotaApproval.CreateQuotaApprovalResponse.quotaApprovalRequest:type_name -> quotaApproval.QuotaApprovalRequest
 	0, // 1: quotaApproval.GetQuotasApprovalsResponse.quotaApprovalRequest:type_name -> quotaApproval.QuotaApprovalRequest
-	0, // 2: quotaApproval.GetQuotaApprovalByIdResponse.quotaApprovalRequest:type_name -> quotaApproval.QuotaApprovalRequest
+	0, // 2: quotaApproval.GetQuotaApprovalByIDResponse.quotaApprovalRequest:type_name -> quotaApproval.QuotaApprovalRequest
 	0, // 3: quotaApproval.UpdateQuotaApprovalResponse.quotaApprovalRequest:type_name -> quotaApproval.QuotaApprovalRequest
 	1, // 4: quotaApproval.QuotaApproval.CreateQuotaApproval:input_type -> quotaApproval.CreateQuotaApprovalRequest
 	3, // 5: quotaApproval.QuotaApproval.GetQuotasApprovals:input_type -> quotaApproval.GetQuotasApprovalsRequest
-	5, // 6: quotaApproval.QuotaApproval.GetQuotaApprovalById:input_type -> quotaApproval.GetQuotaApprovalByIdRequest
+	5, // 6: quotaApproval.QuotaApproval.GetQuotaApprovalByID:input_type -> quotaApproval.GetQuotaApprovalByIDRequest
 	7, // 7: quotaApproval.QuotaApproval.UpdateQuotaApproval:input_type -> quotaApproval.UpdateQuotaApprovalRequest
 	2, // 8: quotaApproval.QuotaApproval.CreateQuotaApproval:output_type -> quotaApproval.CreateQuotaApprovalResponse
 	4, // 9: quotaApproval.QuotaApproval.GetQuotasApprovals:output_type -> quotaApproval.GetQuotasApprovalsResponse
-	6, // 10: quotaApproval.QuotaApproval.GetQuotaApprovalById:output_type -> quotaApproval.GetQuotaApprovalByIdResponse
+	6, // 10: quotaApproval.QuotaApproval.GetQuotaApprovalByID:output_type -> quotaApproval.GetQuotaApprovalByIDResponse
 	8, // 11: quotaApproval.QuotaApproval.UpdateQuotaApproval:output_type -> quotaApproval.UpdateQuotaApprovalResponse
 	8, // [8:12] is the sub-list for method output_type
 	4, // [4:8] is the sub-list for method input_type
@@ -758,7 +758,7 @@ func file_proto_quotaApproval_quotaApproval_proto_init() {
 			}
 		}
 		file_proto_quotaApproval_quotaApproval_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetQuotaApprovalByIdRequest); i {
+			switch v := v.(*GetQuotaApprovalByIDRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -770,7 +770,7 @@ func file_proto_quotaApproval_quotaApproval_proto_init() {
 			}
 		}
 		file_proto_quotaApproval_quotaApproval_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetQuotaApprovalByIdResponse); i {
+			switch v := v.(*GetQuotaApprovalByIDResponse); i {
 			case 0:
 				return &v.state
 			case 1:

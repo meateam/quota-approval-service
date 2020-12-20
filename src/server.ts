@@ -46,9 +46,9 @@ export default class RPC {
                 RequestMethods.getRequests,
                 "GetQuotasApprovals"
             ),
-            GetQuotaApprovalById: wrapper(
-                RequestMethods.getRequestById,
-                "GetQuotaApprovalById"
+            GetQuotaApprovalByID: wrapper(
+                RequestMethods.getRequestByID,
+                "GetQuotaApprovalByID"
             ),
             UpdateQuotaApproval: wrapper(
                 RequestMethods.updateRequest,

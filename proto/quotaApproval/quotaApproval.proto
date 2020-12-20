@@ -5,7 +5,7 @@ package quotaApproval;
 service QuotaApproval {
     rpc CreateQuotaApproval(CreateQuotaApprovalRequest) returns (CreateQuotaApprovalResponse) {}
     rpc GetQuotasApprovals(GetQuotasApprovalsRequest) returns (GetQuotasApprovalsResponse) {}
-    rpc GetQuotaApprovalById(GetQuotaApprovalByIdRequest) returns (GetQuotaApprovalByIdResponse) {}
+    rpc GetQuotaApprovalByID(GetQuotaApprovalByIDRequest) returns (GetQuotaApprovalByIDResponse) {}
     rpc UpdateQuotaApproval(UpdateQuotaApprovalRequest) returns (UpdateQuotaApprovalResponse) {}
 }
 
@@ -39,11 +39,11 @@ message GetQuotasApprovalsResponse {
     repeated QuotaApprovalRequest quotaApprovalRequest = 1;
 }
 
-message GetQuotaApprovalByIdRequest {
+message GetQuotaApprovalByIDRequest {
     string id = 1;
 }
 
-message GetQuotaApprovalByIdResponse {
+message GetQuotaApprovalByIDResponse {
     QuotaApprovalRequest quotaApprovalRequest = 1;
 }
 
