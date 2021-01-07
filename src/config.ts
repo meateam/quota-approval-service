@@ -25,7 +25,7 @@ const config = {
             .get("MONGO_HOST")
             .default("mongodb://localhost:27017/kdrive")
             .required()
-            .asUrlString(),
+            .asString(),
     },
     quotaService: {
         url: env.get("QUOTA_SERVICE_URL").required().asString(),
