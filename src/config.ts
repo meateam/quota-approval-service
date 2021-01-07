@@ -22,7 +22,7 @@ const config = {
     },
     mongo: {
         uri: env
-            .get("MONGO_URI")
+            .get("MONGO_HOST")
             .default("mongodb://localhost:27017/kdrive")
             .required()
             .asUrlString(),
