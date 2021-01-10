@@ -1,7 +1,12 @@
 import * as grpc from "grpc";
-import { loadSync } from "@grpc/proto-loader";
 import RequestMethods from "./request/request.grpc";
 import AdminMethods from "./admin/admin.grpc";
+import {
+    GrpcHealthCheck,
+    HealthCheckResponse,
+    HealthService,
+} from "grpc-ts-health-check";
+import { loadSync } from "@grpc/proto-loader";
 import { wrapper } from "./utils/logger";
 
 export const serviceNames: string[] = ["", "users.Users"];
@@ -31,8 +36,14 @@ const quotaApprovalProto: any = grpc.loadPackageDefinition(
 const adminProto: any = grpc.loadPackageDefinition(adminPackageDefinition)
     .admins;
 
+const healthCheckStatusMap = {
+    "": HealthCheckResponse.ServingStatus.UNKNOWN,
+    serviceName: HealthCheckResponse.ServingStatus.UNKNOWN,
+};
+
 export default class RPC {
     public server: any;
+    public grpcHealthCheck: GrpcHealthCheck;
 
     public constructor(port: string) {
         this.server = new grpc.Server();
@@ -60,6 +71,10 @@ export default class RPC {
             GetAllAdmins: wrapper(AdminMethods.getAllAdmins, "GetAllAdmins"),
             IsUserAdmin: wrapper(AdminMethods.isUserAdmin, "IsUserAdmin"),
         });
+
+        // Register the health service
+        this.grpcHealthCheck = new GrpcHealthCheck(healthCheckStatusMap);
+        this.server.addService(HealthService, this.grpcHealthCheck);
 
         this.server.bind(
             `0.0.0.0:${port}`,
