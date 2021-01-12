@@ -1,8 +1,9 @@
-import * as mongoose from "mongoose";
-import * as apm from "elastic-apm-node";
-import Server from "./server";
+import mongoose from "mongoose";
+import apm from "elastic-apm-node";
+import Server, { serviceNames } from "./server";
 import config from "./config";
 import AdminManager from "./admin/admin.service";
+import { HealthCheckResponse } from 'grpc-ts-health-check';
 
 const { mongo, service, admin, apmConfig } = config;
 
@@ -33,9 +34,39 @@ const main = async () => {
         serverUrl: apmConfig.apmURL,
     });
 
-    await initializeMongo();
+    let isSucceed: boolean = false;
 
-    new Server(`${service.port}`);
+    for (let i = 0; (i < 10) && (!isSucceed); i++) {
+        try {
+            await initializeMongo();
+            isSucceed = true;
+        } catch (err) {
+            console.error(`Could not connect mongo. Attempt number: ${i + 1}`);
+            console.error(err);
+            await sleep(1000);
+        }
+    }
+
+    const quotaApprovalServer: Server = new Server(`${service.port}`);
+    quotaApprovalServer.server.start();
+
+    if (!isSucceed) {
+        setHealthStatus(quotaApprovalServer, HealthCheckResponse.ServingStatus.NOT_SERVING);
+        console.log(`Server was not created successfully`);
+    } else {
+        setHealthStatus(quotaApprovalServer, HealthCheckResponse.ServingStatus.SERVING);
+        console.log(`Server was created successfully on port ${service.port}`);
+    }
 };
+
+function setHealthStatus(server: Server, status: number): void {
+    for (let i = 0; i < serviceNames.length; i++) {
+        server.grpcHealthCheck.setStatus(serviceNames[i], status);
+    }
+}
+
+function sleep(ms: number) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 main().catch(console.error);
