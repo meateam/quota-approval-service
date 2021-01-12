@@ -49,7 +49,7 @@ const config = {
         esUser,
         esPass,
     },
-    debugMode: env.get("QAS_DEBUG_MODE").default("false").asBool(),
+    debugMode: env.get("QAS_DEBUG_MODE").default("0").asBool(),
     confLogger: {
         options: {
             hosts: esHost,

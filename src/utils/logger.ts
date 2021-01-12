@@ -2,7 +2,7 @@ import * as winston from "winston";
 import * as os from "os";
 import * as grpc from "grpc";
 import * as WinstonElasticsearch from "winston-elasticsearch";
-import * as apm from "elastic-apm-node";
+import apm from "elastic-apm-node";
 import Config from "../config";
 import { statusToString, validateGrpcError } from "./grpc/status";
 import { ApplicationError } from "./error";
