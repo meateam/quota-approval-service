@@ -3,14 +3,46 @@ syntax = "proto3";
 package quota;
 
 service QuotaService {
+    rpc IsAllowedToGetQuota(IsAllowedToGetQuotaRequest) returns (IsAllowedToGetQuotaResponse) {}
+    rpc GetOwnerQuota(GetOwnerQuotaRequest) returns (GetOwnerQuotaResponse) {}
     rpc UpdateQuota(UpdateQuotaRequest) returns (UpdateQuotaResponse) {}
+    rpc ChangeQuotaLimit(ChangeQuotaLimitRequest) returns (ChangeQuotaLimitResponse) {}
 }
 
-message UpdateQuotaRequest {
-  string ownerID = 1;
-  int64 size = 2;
-}
+message IsAllowedToGetQuotaRequest {
+    string requestingUser = 1;
+    string ownerID = 2;
+  }
+  
+  message IsAllowedToGetQuotaResponse {
+    bool allowed = 1;
+  }
+  
+  message GetOwnerQuotaRequest {
+    string ownerID = 1;
+  }
+  
+  message GetOwnerQuotaResponse {
+    string ownerID = 1;
+    int64 limit = 2;
+    int64 used = 3;
+  }
 
-message UpdateQuotaResponse {
-  bool success = 1; 
-}
+  message UpdateQuotaRequest {
+    string ownerID = 1;
+    int64 size = 2;
+  }
+  
+  message UpdateQuotaResponse {
+    bool success = 1; 
+  }
+  
+  message ChangeQuotaLimitRequest {
+    string ownerID = 1;
+    int64 size = 2;
+  }
+
+  message ChangeQuotaLimitResponse {
+    bool success = 1; 
+  }
+  

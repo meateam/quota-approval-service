@@ -164,7 +164,7 @@ export default class RequestService {
                     grpc.credentials.createInsecure()
                 );
                 await new Promise((res, rej) => {
-                    quotaClient.UpdateQuota(
+                    quotaClient.ChangeQuotaLimit(
                         {
                             ownerID,
                             size,

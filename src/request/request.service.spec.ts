@@ -13,7 +13,7 @@ const mockServer = createMockServer({
     serviceName: "QuotaService",
     rules: [
         {
-            method: "UpdateQuota",
+            method: "ChangeQuotaLimit",
             input: ".*",
             output: { message: "Quota updated successfully!" },
         },
