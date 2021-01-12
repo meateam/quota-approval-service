@@ -15,8 +15,8 @@ message QuotaApprovalRequest {
     string from = 3;
     string info = 4;
     int64 size = 5;
-    int32 createdBy = 6;
-    int32 updatedBy = 7;
+    int64 createdAt = 6;
+    int64 updatedAt = 7;
 }
 
 message CreateQuotaApprovalRequest {
@@ -36,7 +36,7 @@ message GetQuotasApprovalsRequest {
 }
 
 message GetQuotasApprovalsResponse {
-    repeated QuotaApprovalRequest quotaApprovalRequest = 1;
+    repeated QuotaApprovalRequest quotaApprovalRequests = 1;
 }
 
 message GetQuotaApprovalByIDRequest {

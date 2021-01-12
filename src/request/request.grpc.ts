@@ -4,6 +4,7 @@ import {
     IQuotaApprovalRequest,
     GetRequestsQuery,
     RequestStatus,
+    QuotaApprovalResponse,
 } from "./request.interface";
 
 export default class RequestMethods {
@@ -14,34 +15,56 @@ export default class RequestMethods {
             size: number;
             modifiedBy: string;
         }>
-    ): Promise<IQuotaApprovalRequest> {
+    ): Promise<{ quotaApprovalRequest: any }> {
         const { from } = call.request;
         const { info } = call.request;
         const { size } = call.request;
         const { modifiedBy } = call.request;
 
-        return RequestService.create({
-            from,
-            info,
-            size,
-            modifiedBy,
-        } as IQuotaApprovalRequest);
+        const quotaApprovalRequest: IQuotaApprovalRequest = await RequestService.create(
+            {
+                from,
+                info,
+                size,
+                modifiedBy,
+            } as IQuotaApprovalRequest
+        );
+
+        return {
+            quotaApprovalRequest: new QuotaApprovalResponse(
+                quotaApprovalRequest
+            ),
+        };
     }
 
     static async getRequestByID(
         call: ServerUnaryCall<{ id: string }>
-    ): Promise<IQuotaApprovalRequest> {
+    ): Promise<{ quotaApprovalRequest: IQuotaApprovalRequest }> {
         const requestId: string = call.request.id;
 
-        return RequestService.getById(requestId);
+        const quotaApprovalRequest = await RequestService.getById(requestId);
+        return {
+            quotaApprovalRequest: new QuotaApprovalResponse(
+                quotaApprovalRequest
+            ),
+        };
     }
 
     static async getRequests(
         call: ServerUnaryCall<GetRequestsQuery>
-    ): Promise<IQuotaApprovalRequest[]> {
+    ): Promise<{ quotaApprovalRequests: IQuotaApprovalRequest[] }> {
         const query: GetRequestsQuery = call.request;
 
-        return RequestService.getRequests(query);
+        const quotaApprovalRequests: IQuotaApprovalRequest[] = await RequestService.getRequests(
+            query
+        );
+
+        return {
+            quotaApprovalRequests: quotaApprovalRequests.map(
+                (quotaApprovalRequest: IQuotaApprovalRequest) =>
+                    new QuotaApprovalResponse(quotaApprovalRequest)
+            ),
+        };
     }
 
     static async updateRequest(
@@ -50,11 +73,20 @@ export default class RequestMethods {
             modifiedBy: string;
             status: string;
         }>
-    ): Promise<IQuotaApprovalRequest> {
+    ): Promise<{ quotaApprovalRequest: IQuotaApprovalRequest }> {
         const { id } = call.request;
         const { modifiedBy } = call.request;
         const status: RequestStatus = call.request.status as RequestStatus;
 
-        return RequestService.updateRequest(id, modifiedBy, status);
+        const quotaApprovalRequest: IQuotaApprovalRequest = await RequestService.updateRequest(
+            id,
+            modifiedBy,
+            status
+        );
+        return {
+            quotaApprovalRequest: new QuotaApprovalResponse(
+                quotaApprovalRequest
+            ),
+        };
     }
 }

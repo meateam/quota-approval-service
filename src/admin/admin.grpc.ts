@@ -5,15 +5,18 @@ import { Admin } from "./admin.interface";
 export default class AdminMethods {
     static async getAllAdmins(
         _call: ServerUnaryCall<{}>
-    ): Promise<Admin[]> {
-        return AdminService.getAllAdmins();
+    ): Promise<{ admins: Admin[] }> {
+        const admins = await AdminService.getAllAdmins();
+        return { admins };
     }
 
     static async isUserAdmin(
         call: ServerUnaryCall<{ id: string }>
-    ): Promise<boolean> {
+    ): Promise<{ isUserAdmin: boolean }> {
         const userId: string = call.request.id;
 
-        return AdminService.isUserAdmin(userId);
+        const isUserAdmin = await AdminService.isUserAdmin(userId);
+
+        return { isUserAdmin };
     }
 }

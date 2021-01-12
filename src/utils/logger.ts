@@ -108,8 +108,12 @@ export function wrapper(
                 callback(err);
             }
         } else {
-            const res = await func(call, callback);
-            callback(null, res);
+            try {
+                const res = await func(call, callback);
+                callback(null, res);
+            } catch (err) {
+                callback(err);
+            }
         }
     };
 }

@@ -1,6 +1,10 @@
 import * as mongoose from "mongoose";
 import { IQuotaApprovalRequest } from "./request.interface";
 
+const transform = (_doc: any, ret: any) => {
+    delete ret._id;
+};
+
 const requestSchema: mongoose.Schema = new mongoose.Schema(
     {
         from: {
@@ -30,16 +34,12 @@ const requestSchema: mongoose.Schema = new mongoose.Schema(
         versionKey: false,
         timestamps: true,
         toJSON: {
+            transform,
             virtuals: true,
-            transform(doc, ret) {
-                delete ret._id;
-            },
         },
         toObject: {
+            transform,
             virtuals: true,
-            transform(doc, ret) {
-                delete ret._id;
-            },
         },
     }
 );

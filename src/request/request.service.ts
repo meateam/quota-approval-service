@@ -2,7 +2,6 @@ import * as grpc from "grpc";
 import AdminManager from "../admin/admin.service";
 import config from "../config";
 import { loadSync } from "@grpc/proto-loader";
-import { UpdateQuery } from "mongoose";
 import RequestRepository from "./request.repository";
 import { UnauthorizedError, ServerError, ClientError } from "../utils/error";
 import {
@@ -156,7 +155,7 @@ export default class RequestService {
         request: IQuotaApprovalRequest
     ): Promise<void> {
         try {
-            if (this.isApproved(request.status)) {
+            if (this.isApproved(request.status) && !config.debugMode) {
                 const ownerID: string = request.from;
                 const { size } = request;
 
@@ -164,7 +163,7 @@ export default class RequestService {
                     config.quotaService.url,
                     grpc.credentials.createInsecure()
                 );
-                const updateQuotaPromise = new Promise((res, rej) => {
+                await new Promise((res, rej) => {
                     quotaClient.UpdateQuota(
                         {
                             ownerID,
