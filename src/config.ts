@@ -14,7 +14,7 @@ const esPass = env.get("ELASTICSEARCH_PASSWORD").default("");
 
 const config = {
     service: {
-        port: env.get("QAS_PORT").required().asPortNumber(),
+        port: env.get("QAS_PORT").default(8080).asPortNumber(),
         name: env
             .get("QAS_APM_SERVICE_NAME")
             .default("quota-approval-service")
@@ -22,7 +22,7 @@ const config = {
     },
     mongo: {
         uri: env
-            .get("QAS_MONGO_HOST")
+            .get("MONGO_HOST")
             .default("mongodb://localhost:27017/kdrive")
             .required()
             .asString(),

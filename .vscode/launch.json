@@ -16,7 +16,7 @@
                 "${workspaceFolder}/**/*.js"
             ],
             "env": {
-				"QAS_PORT":8080,
+				"QAS_PORT":8093,
                 "QUOTA_SERVICE_URL":"http://localhost:8080",
                 "ADMINS_ID_LIST":"1,2,3,4,5,6,7",
                 "QAS_DEBUG_MODE": true,
