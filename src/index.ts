@@ -48,8 +48,7 @@ const main = async () => {
     }
 
     const quotaApprovalServer: Server = new Server(`${service.port}`);
-    quotaApprovalServer.server.start();
-
+    
     if (!isSucceed) {
         setHealthStatus(quotaApprovalServer, HealthCheckResponse.ServingStatus.NOT_SERVING);
         console.log(`Server was not created successfully`);
@@ -57,6 +56,8 @@ const main = async () => {
         setHealthStatus(quotaApprovalServer, HealthCheckResponse.ServingStatus.SERVING);
         console.log(`Server was created successfully on port ${service.port}`);
     }
+    
+    quotaApprovalServer.server.start();
 };
 
 function setHealthStatus(server: Server, status: number): void {
