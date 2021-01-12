@@ -9,7 +9,7 @@ import {
 import { loadSync } from "@grpc/proto-loader";
 import { wrapper } from "./utils/logger";
 
-export const serviceNames: string[] = ["", "users.Users"];
+export const serviceNames: string[] = ["", "quotaApproval.quotaApprovalService"];
 
 const QUOTA_APPROVAL_PROTO_PATH = `${__dirname}/../proto/quotaApproval/quotaApproval.proto`;
 const ADMIN_PROTO_PATH = `${__dirname}/../proto/admin/admin.proto`;

@@ -22,7 +22,7 @@ const config = {
     },
     mongo: {
         uri: env
-            .get("MONGO_HOST")
+            .get("QAS_MONGO_HOST")
             .default("mongodb://localhost:27017/kdrive")
             .required()
             .asString(),
@@ -49,7 +49,7 @@ const config = {
         esUser,
         esPass,
     },
-    debugMode: env.get("DEBUG_MODE").default("false").asBool(),
+    debugMode: env.get("QAS_DEBUG_MODE").default("false").asBool(),
     confLogger: {
         options: {
             hosts: esHost,

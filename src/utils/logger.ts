@@ -80,31 +80,36 @@ export function wrapper(
         call: grpc.ServerUnaryCall<Object>,
         callback: grpc.requestCallback<Object>
     ) => {
-        try {
-            const traceparent: grpc.MetadataValue[] = call.metadata.get(
-                "elastic-apm-traceparent"
-            );
-            const transOptions =
-                traceparent.length > 0
-                    ? { childOf: traceparent[0].toString() }
-                    : {};
-            apm.startTransaction(
-                `/quotaApproval.QuotaApproval/${funcName}`,
-                "request",
-                transOptions
-            );
-            const reqInfo: object = call.request;
-            log(Severity.INFO, "request", funcName, "NONE", reqInfo);
+        if (!debugMode) {
+            try {
+                const traceparent: grpc.MetadataValue[] = call.metadata.get(
+                    "elastic-apm-traceparent"
+                );
+                const transOptions =
+                    traceparent.length > 0
+                        ? { childOf: traceparent[0].toString() }
+                        : {};
+                apm.startTransaction(
+                    `/quotaApproval.QuotaApproval/${funcName}`,
+                    "request",
+                    transOptions
+                );
+                const reqInfo: object = call.request;
+                log(Severity.INFO, "request", funcName, "NONE", reqInfo);
 
+                const res = await func(call, callback);
+                apm.endTransaction(statusToString(grpc.status.OK));
+                log(Severity.INFO, "response", funcName, "NONE", { res });
+                callback(null, res);
+            } catch (err) {
+                const validatedErr: ApplicationError = validateGrpcError(err);
+                log(Severity.ERROR, funcName, err.message);
+                apm.endTransaction(validatedErr.name);
+                callback(err);
+            }
+        } else {
             const res = await func(call, callback);
-            apm.endTransaction(statusToString(grpc.status.OK));
-            log(Severity.INFO, "response", funcName, "NONE", { res });
             callback(null, res);
-        } catch (err) {
-            const validatedErr: ApplicationError = validateGrpcError(err);
-            log(Severity.ERROR, funcName, err.message);
-            apm.endTransaction(validatedErr.name);
-            callback(err);
         }
     };
 }
