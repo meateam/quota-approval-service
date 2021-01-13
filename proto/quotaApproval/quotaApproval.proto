@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+package quotaApproval;
+
+service QuotaApproval {
+    rpc CreateQuotaApproval(CreateQuotaApprovalRequest) returns (CreateQuotaApprovalResponse) {}
+    rpc GetQuotasApprovals(GetQuotasApprovalsRequest) returns (GetQuotasApprovalsResponse) {}
+    rpc GetQuotaApprovalByID(GetQuotaApprovalByIDRequest) returns (GetQuotaApprovalByIDResponse) {}
+    rpc UpdateQuotaApproval(UpdateQuotaApprovalRequest) returns (UpdateQuotaApprovalResponse) {}
+}
+
+message QuotaApprovalRequest {
+    string id = 1;
+    string status = 2;
+    string from = 3;
+    string info = 4;
+    int64 size = 5;
+    int64 createdAt = 6;
+    int64 updatedAt = 7;
+}
+
+message CreateQuotaApprovalRequest {
+    string from = 1;
+    string info = 2;
+    int64 size = 3;
+    string modifiedBy = 4;
+}
+
+message CreateQuotaApprovalResponse {
+    QuotaApprovalRequest quotaApprovalRequest = 1;
+}
+
+message GetQuotasApprovalsRequest {
+    string createdBy = 1;
+    string approvableBy = 2;
+}
+
+message GetQuotasApprovalsResponse {
+    repeated QuotaApprovalRequest quotaApprovalRequests = 1;
+}
+
+message GetQuotaApprovalByIDRequest {
+    string id = 1;
+}
+
+message GetQuotaApprovalByIDResponse {
+    QuotaApprovalRequest quotaApprovalRequest = 1;
+}
+
+message UpdateQuotaApprovalRequest {
+    string id = 1;
+    string modifiedBy = 2;
+    string status = 3;
+}
+
+message UpdateQuotaApprovalResponse {
+    QuotaApprovalRequest quotaApprovalRequest = 1;
+}

@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  mongo:
+    image: mongo
+    ports:
+      - 27017:27017
+
+  quota-approval-service:
+    build: .
+    environment:
+      QUOTA_SERVICE_URL: 'http://localhost:8080'
+      ADMINS_ID_LIST: '1,2,3,4,5,6,7'
+      QAS_DEBUG_MODE: 'true'
+      ELASTICSEARCH_URL: http://52.169.253.183:9200
+      ELASTIC_APM_SERVER_URL: http://52.169.253.183:8200
+      MONGO_HOST: mongodb://mongo:27017/kdrive
+    ports:
+      - 8080:8080
+    depends_on:
+      - mongo
