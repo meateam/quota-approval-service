@@ -155,7 +155,7 @@ export default class RequestService {
         request: IQuotaApprovalRequest
     ): Promise<void> {
         try {
-            if (this.isApproved(request.status) && !config.debugMode) {
+            if (this.isApproved(request.status)) {
                 const ownerID: string = request.from;
                 const { size } = request;
 
